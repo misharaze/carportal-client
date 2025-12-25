@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "авто салон",
+			"path": "../../../.."
+		},
+		{
+			"name": "Server",
+			"path": "../../../../../../Downloads/portal-auto-main/Server"
+		}
+	],
+	"settings": {}
+}

@@ -1,0 +1,88 @@
+.edit {
+  padding: clamp(24px, 5vw, 40px) clamp(14px, 4vw, 20px);
+  background: #111215;
+  min-height: 100svh;
+  color: #e4e4e4;
+
+  &__card {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #1b1c20;
+    border: 1px solid #2a2a2d;
+    border-radius: 20px;
+    padding: clamp(22px, 5vw, 35px);
+  }
+
+  h1 {
+    text-align: center;
+    color: #4db6ff;
+    margin-bottom: clamp(22px, 5vw, 30px);
+    font-size: clamp(22px, 4vw, 28px);
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    label {
+      font-weight: 500;
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    input,
+    textarea {
+      background: #131416;
+      border: 1px solid #2a2a2d;
+      padding: 12px 14px;
+      border-radius: 12px;
+      color: #e4e4e4;
+      font-size: 15px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+      &:focus {
+        border-color: #4db6ff;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(77, 182, 255, 0.25);
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .edit__save {
+      margin-top: 20px;
+      padding: 14px;
+      background: linear-gradient(135deg, #4db6ff, #76c7ff);
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 25px rgba(77, 182, 255, 0.45);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+/* 📱 MOBILE TWEAKS */
+@media (max-width: 480px) {
+  .edit__card {
+    border-radius: 16px;
+  }
+
+  .edit form {
+    gap: 12px;
+  }
+}

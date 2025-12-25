@@ -1,0 +1,217 @@
+/* ===============================
+   WRAPPER
+================================ */
+.wizard {
+  max-width: 860px;
+  margin: 40px auto;
+  padding: 0 16px;
+  color: white;
+  animation: fadeIn 0.4s ease;
+}
+
+/* ===============================
+   STEPS NAV
+================================ */
+.wizard__steps {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+
+  /* скрываем скролл */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.step {
+  flex-shrink: 0;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: #1e293b;
+  font-size: 14px;
+  opacity: 0.45;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+
+  &.active {
+    opacity: 1;
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    box-shadow: 0 6px 20px rgba(59,130,246,0.45);
+  }
+}
+
+/* ===============================
+   CONTENT CARD
+================================ */
+.wizard__content,
+.step-card {
+  background: #0f172a;
+  padding: 26px;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+  animation: slideUp 0.35s ease;
+}
+
+/* ===============================
+   FORM FIELDS
+================================ */
+.step-page input,
+.step-page textarea,
+.step-card input,
+.step-card textarea {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  border: 1px solid #334155;
+  background: #020617;
+  color: white;
+  font-size: 14px;
+
+  &::placeholder {
+    color: #64748b;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 1px rgba(59,130,246,0.6);
+  }
+}
+
+/* ===============================
+   NAV BUTTONS
+================================ */
+.nav-buttons {
+  display: flex;
+  gap: 14px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+}
+
+.next-btn,
+.back-btn,
+.publish-btn {
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.next-btn,
+.publish-btn {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 25px rgba(59,130,246,0.5);
+  }
+}
+
+.back-btn {
+  background: #334155;
+  color: white;
+
+  &:hover {
+    background: #475569;
+  }
+}
+
+.publish-btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ===============================
+   PHOTO PREVIEW
+================================ */
+.photo-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+
+  img {
+    width: 100%;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #334155;
+  }
+}
+
+/* ===============================
+   UPLOAD / TITLE
+================================ */
+.title {
+  margin-bottom: 32px;
+}
+
+.upload-btn {
+  margin-bottom: 32px;
+}
+
+/* ===============================
+   SPINNER
+================================ */
+.spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid rgba(255,255,255,0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto;
+}
+
+/* ===============================
+   ANIMATIONS
+================================ */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===============================
+   MOBILE
+================================ */
+@media (max-width: 640px) {
+  .wizard {
+    margin: 24px auto;
+  }
+
+  .wizard__content,
+  .step-card {
+    padding: 20px;
+  }
+
+  .next-btn,
+  .back-btn,
+  .publish-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

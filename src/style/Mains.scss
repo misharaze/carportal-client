@@ -1,0 +1,148 @@
+/* =========================
+   RESET
+========================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/* =========================
+   CSS VARIABLES
+========================= */
+:root {
+  --font-title: "Space Grotesk", system-ui, sans-serif;
+  --font-text: "Inter", system-ui, sans-serif;
+
+  --color-primary: #8b5cf6;
+  --color-primary-dark: #6d28d9;
+
+  --color-bg: #0b0b14;
+  --color-card: #11111d;
+  --color-border: rgba(255,255,255,.08);
+
+  --color-text: #e5e7eb;
+  --color-muted: #9ca3af;
+
+  --radius-lg: 18px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+}
+
+/* =========================
+   BODY
+========================= */
+body {
+  font-family: var(--font-text);
+  background: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100svh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+main {
+  min-height: calc(100svh - 160px); /* Header + Footer */
+}
+
+/* =========================
+   CONTAINER
+========================= */
+.container {
+  width: 100%;
+  max-width: 1300px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 24px);
+}
+
+/* =========================
+   TYPOGRAPHY
+========================= */
+h1, h2, h3 {
+  font-family: var(--font-title);
+  letter-spacing: -0.02em;
+}
+
+p {
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+
+/* =========================
+   CARD (GLOBAL)
+========================= */
+.card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition:
+    transform .3s ease,
+    box-shadow .3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(0,0,0,.4);
+}
+
+/* =========================
+   GRID HELPERS
+========================= */
+.grid {
+  display: grid;
+  gap: clamp(16px, 3vw, 24px);
+}
+
+.grid-auto {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* =========================
+   FORMS (GLOBAL BASE)
+========================= */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+.fade-up {
+  animation: fadeUp .6s ease forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+  main {
+    min-height: calc(100svh - 140px);
+  }
+}

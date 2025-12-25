@@ -1,0 +1,137 @@
+.admin-pagination {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(31, 41, 55, 0.9);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* =========================
+   INFO
+========================= */
+.admin-pagination__info {
+  font-size: 13px;
+  color: #9ca3af;
+  line-height: 1.4;
+
+  span {
+    color: #e5e7eb;
+    font-weight: 500;
+  }
+}
+
+/* =========================
+   CONTROLS
+========================= */
+.admin-pagination__controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.admin-pagination__controls button {
+  min-width: 32px;
+  height: 30px;
+  padding: 0 10px;
+
+  border-radius: 999px;
+  border: 1px solid rgba(55, 65, 81, 0.95);
+  background: rgba(15, 23, 42, 0.95);
+
+  color: #9ca3af;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  transition:
+    background 0.16s ease,
+    color 0.16s ease,
+    transform 0.08s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+
+  &:hover:not(:disabled) {
+    background: rgba(31, 41, 55, 0.98);
+    color: #e5e7eb;
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0) scale(0.97);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  &.active {
+    background: rgba(99, 102, 241, 0.22);
+    border-color: rgba(129, 140, 248, 0.9);
+    color: #e0e7ff;
+    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.35);
+  }
+}
+
+/* =========================
+   DOTS
+========================= */
+.admin-pagination__dots {
+  color: #6b7280;
+  font-size: 13px;
+  padding: 0 4px;
+  user-select: none;
+}
+
+/* =========================
+   TABLET
+========================= */
+@media (max-width: 900px) {
+  .admin-pagination {
+    gap: 14px;
+  }
+
+  .admin-pagination__controls button {
+    min-width: 34px;
+    height: 32px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 640px) {
+  .admin-pagination {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .admin-pagination__info {
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .admin-pagination__controls {
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .admin-pagination__controls button {
+    min-width: 36px;
+    height: 34px;
+    font-size: 14px;
+  }
+}

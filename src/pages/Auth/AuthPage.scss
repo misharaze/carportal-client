@@ -1,0 +1,218 @@
+.auth-split {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+}
+
+/* ================= LEFT VISUAL ================= */
+.auth-split__visual {
+  position: relative;
+  background:
+    radial-gradient(800px 400px at 20% 0%, rgba(140,82,255,0.35), transparent 45%),
+    radial-gradient(600px 300px at 80% 20%, rgba(255,80,200,0.25), transparent 45%),
+    linear-gradient(180deg, #05020a, #0b0715);
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 80px;
+}
+
+.auth-visual__content {
+  max-width: 420px;
+}
+
+.auth-visual__content h1 {
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.auth-visual__content p {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+/* ================= RIGHT FORM ================= */
+.auth-split__form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+}
+
+/* ================= CARD ================= */
+.auth__card {
+  width: 380px;
+  max-width: 100%;
+  padding: 36px;
+  border-radius: 28px;
+  background: #ffffff;
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.25),
+    0 10px 30px rgba(0, 0, 0, 0.08);
+  animation: fadeUp 0.4s ease;
+}
+
+/* ================= TABS ================= */
+.auth__tabs {
+  position: relative;
+  display: flex;
+  gap: 32px;
+  margin-bottom: 28px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.auth__tabs button {
+  background: none;
+  border: none;
+  padding: 6px 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+
+.auth__tabs button.active,
+.auth__tabs button:hover {
+  color: #111827;
+}
+
+/* underline */
+.auth__tabs-indicator {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 42px;
+  height: 2px;
+  background: linear-gradient(90deg, #7c3aed, #9333ea);
+  border-radius: 999px;
+  transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+}
+
+.auth__tabs-indicator.left {
+  transform: translateX(0);
+}
+
+.auth__tabs-indicator.right {
+  transform: translateX(86px);
+}
+
+/* ================= FORM ================= */
+.auth__form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: formFade 0.35s ease;
+}
+
+.auth__form h2 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+.auth__form input {
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  font-size: 0.95rem;
+}
+
+.auth__form input:focus {
+  outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.15);
+}
+
+/* ================= BUTTONS ================= */
+.auth__btn {
+  margin-top: 10px;
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.auth__btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px rgba(124,58,237,.35);
+}
+
+.auth__forgot,
+.auth__back {
+  background: none;
+  border: none;
+  color: #7c3aed;
+  font-size: 0.85rem;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes formFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* tablet */
+@media (max-width: 1024px) {
+  .auth-split__visual {
+    padding: 60px;
+  }
+}
+
+/* mobile */
+@media (max-width: 900px) {
+  .auth-split {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-split__visual {
+    display: none;
+  }
+
+  .auth-split__form {
+    padding: 40px 20px;
+  }
+
+  .auth__card {
+    padding: 28px;
+    border-radius: 22px;
+  }
+}
+
+/* small phones */
+@media (max-width: 420px) {
+  .auth__card {
+    padding: 22px;
+  }
+
+  .auth__form h2 {
+    font-size: 1.25rem;
+  }
+}

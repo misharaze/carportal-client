@@ -1,0 +1,63 @@
+.admin-sidebar {
+  width: 260px;
+  background: linear-gradient(180deg, #020617 0%, #020617 45%, #111827 100%);
+  border-right: 1px solid rgba(148, 163, 184, 0.22);
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  box-shadow: 8px 0 30px rgba(15, 23, 42, 0.8);
+  z-index: 10;
+
+  &__logo {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 12px;
+    background: radial-gradient(circle at top left, #1d4ed8 0, #020617 55%);
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.45);
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 10px;
+    font-size: 14px;
+    border-radius: 10px;
+    color: #9ca3af;
+    text-decoration: none;
+    transition:
+      background 0.16s ease,
+      color 0.16s ease,
+      transform 0.1s ease;
+
+    &:hover {
+      background: rgba(148, 163, 184, 0.14);
+      color: #e5e7eb;
+      transform: translateX(2px);
+    }
+
+    &.active {
+      background: linear-gradient(90deg, #1d4ed8, #22c55e);
+      color: #f9fafb;
+      font-weight: 600;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.45);
+    }
+  }
+}

@@ -1,0 +1,141 @@
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 18px;
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+
+  thead {
+    background: linear-gradient(90deg, #0f172a, #111827);
+  }
+
+  th,
+  td {
+    padding: 10px 12px;
+    font-size: 13px;
+    text-align: left;
+    border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+  }
+
+  th {
+    color: #9ca3af;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  td {
+    color: #e5e7eb;
+    vertical-align: middle;
+  }
+
+  tbody tr:hover {
+    background: rgba(31, 41, 55, 0.9);
+  }
+
+  img {
+    border-radius: 10px;
+    outline: 1px solid rgba(148, 163, 184, 0.45);
+    max-width: 90px;
+  }
+
+  .admin-table__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      background: #1f2937;
+      color: #e5e7eb;
+      transition: background 0.16s ease, transform 0.08s ease;
+
+      &:hover {
+        background: #374151;
+        transform: translateY(-1px);
+      }
+
+      &:first-child {
+        background: rgba(34, 197, 94, 0.16);
+        color: #bbf7d0;
+
+        &:hover {
+          background: rgba(34, 197, 94, 0.27);
+        }
+      }
+
+      &.danger {
+        background: rgba(239, 68, 68, 0.18);
+        color: #fecaca;
+
+        &:hover {
+          background: rgba(239, 68, 68, 0.3);
+        }
+      }
+    }
+  }
+}
+
+/* =========================
+   📱 MOBILE → CARD LAYOUT
+========================= */
+@media (max-width: 768px) {
+  .admin-table {
+    border: none;
+    background: transparent;
+  }
+
+  .admin-table thead {
+    display: none;
+  }
+
+  .admin-table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .admin-table tr {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    background: radial-gradient(circle at top left, #1e293b 0, #020617 70%);
+    border-radius: 16px;
+    padding: 14px;
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    box-shadow: 0 14px 35px rgba(15, 23, 42, 0.75);
+  }
+
+  .admin-table td {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    border: none;
+    padding: 4px 0;
+    font-size: 13px;
+  }
+
+  .admin-table td::before {
+    content: attr(data-label);
+    color: #9ca3af;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    min-width: 90px;
+  }
+
+  .admin-table img {
+    max-width: 100%;
+  }
+
+  .admin-table__actions {
+    margin-top: 8px;
+    justify-content: flex-end;
+  }
+}

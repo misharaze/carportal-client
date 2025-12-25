@@ -1,0 +1,140 @@
+.favorites {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 60px 24px 100px;
+}
+
+/* ===============================
+   HEADER
+================================ */
+.favorites__header {
+  text-align: center;
+  margin-bottom: 48px;
+
+  h1 {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    background: linear-gradient(90deg, #b983ff, #8f6bff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  p {
+    color: #9aa0b5;
+    font-size: 16px;
+  }
+}
+
+/* ===============================
+   EMPTY STATE
+================================ */
+.favorites__empty {
+  text-align: center;
+  color: #8b90a5;
+  margin-top: 80px;
+  font-size: 16px;
+}
+
+/* ===============================
+   GRID
+================================ */
+.favorites__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 28px;
+  align-items: stretch;
+}
+
+/* ===============================
+   CARD (LOCAL OVERRIDE)
+================================ */
+.favorites .card {
+  background: linear-gradient(180deg, #12131a, #0d0e14);
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(143, 107, 255, 0.25);
+  }
+}
+
+/* IMAGE */
+.favorites .card__image {
+  height: 180px;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; // 🔥 без растягивания
+    display: block;
+  }
+}
+
+/* BODY */
+.favorites .card__content {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.favorites .card__content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+/* META */
+.favorites .card__meta {
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+  color: #9aa0b5;
+}
+
+/* PRICE */
+.favorites .card__price {
+  margin-top: auto;
+  font-size: 20px;
+  font-weight: 700;
+  color: #b983ff;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 1024px) {
+  .favorites {
+    padding: 40px 20px 80px;
+  }
+
+  .favorites__grid {
+    gap: 22px;
+  }
+}
+
+@media (max-width: 640px) {
+  .favorites__header {
+    margin-bottom: 32px;
+  }
+
+  .favorites__grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .favorites .card__image {
+    height: 160px;
+  }
+}

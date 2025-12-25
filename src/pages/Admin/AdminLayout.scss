@@ -1,0 +1,51 @@
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #020617, #0b0d14);
+  color: #e5e7eb;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  overflow: hidden;
+
+  /* =========================
+     MAIN
+  ========================== */
+  &__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background:
+      radial-gradient(900px 500px at 15% -10%, rgba(79,70,229,.18), transparent 45%),
+      linear-gradient(180deg, #020617, #111827);
+    min-width: 0;
+  }
+
+  &__content {
+    padding: clamp(16px, 3vw, 28px);
+    overflow-y: auto;
+    height: 100%;
+  }
+}
+.admin-dashboard__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: clamp(12px, 2vw, 20px);
+  margin: 20px 0 36px;
+}
+@media (max-width: 1024px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-layout {
+    &__content {
+      padding: 14px;
+    }
+  }
+
+  .admin-dashboard__grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}

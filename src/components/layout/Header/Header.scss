@@ -1,0 +1,321 @@
+@import "../../../style/Variables.scss";
+
+/* ===============================
+   HEADER ROOT
+================================ */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 72px;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.25s ease;
+
+  &.small {
+    height: 58px;
+    background: rgba(10, 10, 15, 0.95);
+    backdrop-filter: blur(20px);
+  }
+}
+
+/* ===============================
+   CONTAINER
+================================ */
+.header__container {
+  max-width: 1280px;
+  margin: 0 auto;
+  height: 100%;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ===============================
+   LOGO
+================================ */
+.header__logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 0.3px;
+  text-decoration: none;
+
+  .logo-mark {
+    color: #8b5cf6;
+    font-size: 22px;
+  }
+
+  .logo-car {
+    color: #ffffff;
+  }
+
+  .logo-portal {
+    color: #8b5cf6;
+  }
+}
+
+/* ===============================
+   NAVIGATION
+================================ */
+.header__nav {
+  display: flex;
+  gap: 28px;
+
+  a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #fff;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0;
+      height: 2px;
+      background: #8b5cf6;
+      transition: width 0.25s ease;
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+  }
+}
+
+/* ===============================
+   ACTIONS
+================================ */
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* ===============================
+   SEARCH
+================================ */
+.header__search {
+  position: relative;
+
+  input {
+    padding: 8px 34px 8px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    color: white;
+    font-size: 13px;
+    outline: none;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+  }
+
+  .icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.5;
+  }
+}
+
+/* ===============================
+   NOTIFICATIONS
+================================ */
+.header__notify {
+  position: relative;
+
+  button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .notify__badge {
+    position: absolute;
+    top: -4px;
+    right: -6px;
+    background: #ef4444;
+    color: white;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 999px;
+  }
+}
+
+/* ===============================
+   ADMIN BUTTON
+================================ */
+.admin-btn {
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  color: #8b5cf6;
+  border-radius: 10px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(139, 92, 246, 0.3);
+  }
+}
+
+/* ===============================
+   AVATAR
+================================ */
+.header__avatar {
+  position: relative;
+
+  img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid rgba(139, 92, 246, 0.4);
+  }
+}
+
+/* ===============================
+   PROFILE MENU
+================================ */
+.profile-menu {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  background: rgba(20, 20, 30, 0.95);
+  backdrop-filter: blur(14px);
+  border-radius: 12px;
+  padding: 8px;
+  min-width: 160px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+
+  a,
+  button {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    color: rgba(255, 255, 255, 0.85);
+    background: none;
+    border: none;
+    text-align: left;
+    border-radius: 8px;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(139, 92, 246, 0.15);
+      color: #fff;
+    }
+  }
+}
+
+/* ===============================
+   LOGIN BUTTON
+================================ */
+.login-btn {
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+
+.header__burger {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+
+  span {
+    width: 22px;
+    height: 2px;
+    background: white;
+  }
+}
+
+
+@media (max-width: 900px) {
+  .header__nav {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    right: 0;
+    background: rgba(10, 10, 15, 0.98);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    padding: 20px;
+    gap: 16px;
+    transform: translateY(-120%);
+    transition: transform 0.25s ease;
+
+    &.active {
+      transform: translateY(0);
+    }
+  }
+
+  .header__burger {
+    display: flex;
+  }
+
+  .header.small + .header__nav {
+    top: 58px;
+  }
+}
+
+.header__burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  z-index: 200;
+
+  span {
+    width: 22px;
+    height: 2px;
+    background: white;
+    transition: all 0.25s ease;
+  }
+
+  &.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  &.open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  &.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+}
+
+
+@media (max-width: 900px) {
+  .header__burger {
+    display: flex;
+  }
+
+  .header__actions {
+    gap: 10px;
+  }
+}

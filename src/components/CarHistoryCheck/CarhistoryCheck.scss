@@ -1,0 +1,113 @@
+.car-history-check {
+  margin: 32px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+
+  /* ===== КНОПКА ===== */
+  button {
+    padding: 10px 22px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+
+    color: #f9fafb;
+    background: linear-gradient(135deg, #7c3aed, #9333ea);
+    box-shadow: 0 12px 30px rgba(124, 58, 237, 0.45);
+
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease,
+      opacity 0.25s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(147, 51, 234, 0.65);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 10px 24px rgba(124, 58, 237, 0.45);
+    }
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+
+  /* ===== РЕЗУЛЬТАТ ===== */
+  &__result {
+    width: 100%;
+    max-width: 520px;
+
+    padding: 18px 20px;
+    border-radius: 18px;
+
+    background:
+      radial-gradient(circle at top left, rgba(124,58,237,0.15), transparent 55%),
+      linear-gradient(180deg, #0b0815, #020617);
+
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    box-shadow:
+      0 20px 45px rgba(0,0,0,0.7),
+      inset 0 1px 0 rgba(255,255,255,0.06);
+
+    color: #e5e7eb;
+    font-size: 0.85rem;
+    line-height: 1.6;
+
+    animation: fade-up 0.35s ease;
+
+    p {
+      margin: 6px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+
+      span {
+        color: #9ca3af;
+      }
+    }
+  }
+}
+
+/* ===== АНИМАЦИЯ ===== */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   📱 MOBILE
+========================= */
+@media (max-width: 640px) {
+  .car-history-check {
+    margin: 24px 0;
+
+    button {
+      width: 100%;
+      max-width: 320px;
+      padding: 10px 18px;
+      font-size: 0.75rem;
+    }
+
+    &__result {
+      padding: 16px;
+      font-size: 0.8rem;
+    }
+  }
+}

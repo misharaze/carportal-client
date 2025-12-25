@@ -1,25 +1,125 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 
-function App() {
+import Header from "./components/layout/Header/Header";
+import Footer from "./components/layout/Footer/Footer";
+
+import HomePage from "./pages/HomePage/HomePage";
+import ListingsPage from "./pages/ListingPage/ListingPage";
+import ListingDetailsPage from "./pages/ListingDetailsPage/ListingDetailsPage";
+import BrandsCatalogPage from "./pages/BrandsCatalogPage/BrandsCatalogPage";
+import CreateListingPage from "./pages/CreateListingPage/CreateListingPage.jsx";
+import AuthPage from "./pages/Auth/AuthPage";
+import ProfilePage from "./pages/Profil/Profil";
+import EditProfilePage from "./pages/Profil/EditprofilePage";
+import FavoritesPage from "./pages/FavoritesPage/FavoritesPage";
+import NotificationsPage from "./pages/NotificationsPage/NotificationsPage";
+
+import AdminLayout from "./pages/Admin/AdminLayout";
+import DashboardPage from "./pages/Admin/AdminDashboard";
+import AdminListingsPage from "./pages/Admin/AdminListingsPage";
+import UsersAdminPage from "./pages/Admin/UserAdminPage";
+import StatsPage from "./pages/Admin/StatsPage";
+import SettingsPage from "./pages/Admin/SettingsPage";
+import CreateListingAdmin from "./pages/Admin/CreateListingAdmin";
+
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import AdminRoute from "./components/AdminRoutes/AdminRoutes";
+
+import ForgotPasswordPage from "./pages/Auth/ForgotPassword";
+import ResetPasswordPage from "./pages/Auth/ResetPasswordPage";
+
+import AuthProvider from "./Context/AuthProvider.jsx";
+
+import "./style/Mains.scss";
+import ContactPage from "./pages/Contact/ContactPage.jsx";
+
+const App = observer(() => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <AuthProvider>
+        <Header />
+
+        <main>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/listings" element={<ListingsPage />} />
+            <Route path="/listings/:id" element={<ListingDetailsPage />} />
+            <Route path="/brands" element={<BrandsCatalogPage />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+
+            {/* 🔐 USER */}
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/profile/edit"
+              element={
+                <ProtectedRoute>
+                  <EditProfilePage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/favorites"
+              element={
+                <ProtectedRoute>
+                  <FavoritesPage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/notifications"
+              element={
+                <ProtectedRoute>
+                  <NotificationsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+  path="/create"
+  element={
+    <ProtectedRoute>
+      <CreateListingPage />
+    </ProtectedRoute>
+  }
+/>
+
+            {/* 👑 ADMIN */}
+            <Route
+              path="/admin"
+              element={
+                <AdminRoute>
+                  <AdminLayout />
+                </AdminRoute>
+              }
+            >
+              <Route index element={<DashboardPage />} />
+              <Route path="listings" element={<AdminListingsPage />} />
+              <Route path="users" element={<UsersAdminPage />} />
+              <Route path="stats" element={<StatsPage />} />
+              <Route path="settings" element={<SettingsPage />} />
+              <Route path="create" element={<CreateListingAdmin />} />
+            </Route>
+          </Routes>
+        </main>
+
+        <Footer />
+      </AuthProvider>
+    </Router>
   );
-}
+});
 
 export default App;
