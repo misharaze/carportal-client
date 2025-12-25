@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import "./AuthPage.scss";
 import { Context } from "../../index";
 import Button from "../../components/ui/Button/Button";
-import { API_URL } from "../../config/api";
+import { API_URL } from "../../config/api.js";
 
 export default function AuthPage() {
   const [mode, setMode] = useState("login");

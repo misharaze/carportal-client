@@ -1,6 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { API_URL } from "../../config/api";
+import { API_URL } from "../../config/api.js";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
