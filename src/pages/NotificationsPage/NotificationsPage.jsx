@@ -6,6 +6,7 @@ import NotificationItem from "./NotificationsItem.jsx";
 import "./NotificationsPage.scss";
 
 export default observer(function NotificationsPage() {
+  
   const { notification } = useContext(Context);
   const [filter, setFilter] = useState("all");
 

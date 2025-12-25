@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Card from "../../components/Card/Card.jsx";
 import "./ListingPage.scss";
 import "../../style/Typography.scss"
+import { API_URL } from "../../config/api.js";
 
 function SkeletonCard() {
   return (
@@ -50,7 +51,7 @@ export default function ListingPage() {
     const token = localStorage.getItem("token");
     if (!token) return alert("Войдите в аккаунт");
   
-    await fetch(`http://localhost:5001/api/favorites/${id}`, {
+    await fetch(`${API_URL}/api/favorites/${id}`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` }
     });
@@ -77,7 +78,7 @@ export default function ListingPage() {
 
     setLoading(true);
 
-    fetch(`http://localhost:5001/api/listings?${params}`)
+    fetch(`${API_URL}/api/listings?${params}`)
       .then((res) => res.json())
       .then((data) => {
         setCars(data.items || []);
@@ -116,7 +117,7 @@ export default function ListingPage() {
     const token = localStorage.getItem("token");
     if (!token) return;
   
-    fetch("http://localhost:5001/api/favorites", {
+    fetch(`${API_URL}/api/favorites`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())

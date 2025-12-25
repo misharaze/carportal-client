@@ -3,8 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import AdminModal from "../../components/admin/AdminModal.jsx";
 import "./AdminEditListingPage.scss";
-
-const API_URL = "http://localhost:5001";
+import { API_URL } from "../../config/api.js";
+//const API_URL = "http://localhost:5001";
 
 export default function AdminEditListingPage() {
   const { id } = useParams();        // /admin/listings/:id/edit

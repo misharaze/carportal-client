@@ -4,7 +4,7 @@ import Button from "../../components/ui/Button/Button";
 import Card from "../../components/Card/Card";
 import RecommendedSlider from "../../components/RecommendedSlider/RecommendedSlider";
 import { useNavigate } from "react-router-dom";
-
+import { API_URL } from "../../config/api";
 
 
 export default function HomePage() {
@@ -18,7 +18,7 @@ export default function HomePage() {
   useEffect(() => {
     setLoading(true);
 
-    fetch("http://localhost:5001/api/listings?limit=4&page=1")
+    fetch(`${API_URL}/api/listings?limit=4&page=1`)
       .then(res => res.json())
       .then(data => {
         setLatestListings(data.items || []);
@@ -33,7 +33,7 @@ export default function HomePage() {
      ПОПУЛЯРНЫЕ БРЕНДЫ
   ========================== */
   useEffect(() => {
-    fetch("http://localhost:5001/api/brands")
+    fetch(`${API_URL}/api/brands`)
       .then(res => res.json())
       .then(data => {
         setBrands(Array.isArray(data) ? data : []);

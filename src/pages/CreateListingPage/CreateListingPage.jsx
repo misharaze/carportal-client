@@ -8,7 +8,7 @@ import StepDescription from "../Steps/StepDescription";
 import StepPhotos from "../Steps/StepPhotos";
 import StepConfirm from "../Steps/StepConfirm";
 import "./CreateListingPage.scss";
-
+import { API_URL } from "../../config/api";
 export default function CreateListingPage() {
   const navigate = useNavigate();
 
@@ -58,7 +58,7 @@ export default function CreateListingPage() {
     const token = localStorage.getItem("token");
   
     try {
-      const res = await fetch("http://localhost:5001/api/listings", {
+      const res = await fetch(`${API_URL}/api/listings`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,

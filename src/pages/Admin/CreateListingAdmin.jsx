@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import Button from "../../components/ui/Button/Button";
 import "./CreateListingAdmin.scss";
+import { API_URL } from "../../config/api";
+
 
 export default function CreateListingAdmin() {
   const token = localStorage.getItem("token");
@@ -19,7 +21,7 @@ export default function CreateListingAdmin() {
 
   /* ===== ЗАГРУЗКА ПОЛЬЗОВАТЕЛЕЙ ===== */
   useEffect(() => {
-    fetch("http://localhost:5001/api/admin/users", {
+    fetch(`${API_URL}/api/admin/users`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./BrandsCatalogPage.scss";
-
+import { API_URL } from "../../config/api";
 export default function BrandsCatalogPage() {
   const navigate = useNavigate();
 
@@ -16,7 +16,7 @@ export default function BrandsCatalogPage() {
   useEffect(() => {
     async function loadBrands() {
       try {
-        const res = await fetch("http://localhost:5001/api/brands");
+        const res = await fetch(`${API_URL}/api/brands`);
         const data = await res.json();
   
         console.log("FULL RESPONSE:", data);

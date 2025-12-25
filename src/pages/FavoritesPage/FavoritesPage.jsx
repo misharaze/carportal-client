@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Card from "../../components/Card/Card";
 import "./FavoritesPage.scss";
+import { API_URL } from "../../config/api";
+
 
 export default function FavoritesPage() {
   const [items, setItems] = useState([]);
@@ -8,7 +10,7 @@ export default function FavoritesPage() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:5001/api/favorites", {
+    fetch(`${API_URL}/api/favorites`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { API_URL } from "../../config/api";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -7,7 +8,7 @@ export default function ForgotPasswordPage() {
   const submit = async (e) => {
     e.preventDefault();
 
-    await fetch("http://localhost:5001/api/auth/forgot-password", {
+    await fetch(`${API_URL}/api/auth/forgot-password`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email })

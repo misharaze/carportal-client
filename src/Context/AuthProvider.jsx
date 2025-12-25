@@ -13,7 +13,7 @@ const AuthProvider = observer(({ children }) => {
 
     (async () => {
       try {
-        const res = await fetch("http://localhost:5001/api/user/profile", {
+        const res = await fetch("${API_URL}/api/user/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

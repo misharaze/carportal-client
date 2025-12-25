@@ -5,6 +5,8 @@ import { Context } from "../../../index";
 import NotificationDropdown from "../../ui/NotificationDopdown/NotificationDropdown";
 import "./Header.scss";
 import HeaderSearch from "../../HeaderSearch/HeaderSearch";
+import { API_URL } from "../../../config/api.js";
+
 
 const Header = observer(() => {
   const [open, setOpen] = useState(false);
@@ -115,7 +117,7 @@ const Header = observer(() => {
          <img
   src={
     user.user?.avatar
-      ? `http://localhost:5001${user.user.avatar}`
+      ? `${API_URL}/{user.user.avatar}`
       : "/avatar-placeholder.png"
   }
   alt="avatar"

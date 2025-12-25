@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./ListingDetailsPage.scss";
 import CarHistoryCheck from "../../components/CarHistoryCheck/CarHistoryCheck";
+import { API_URL } from "../../config/api";
 
 export default function ListingDetailsPage() {
   const { id } = useParams();
@@ -9,7 +10,7 @@ export default function ListingDetailsPage() {
   const [activeImage, setActiveImage] = useState(0);
 
   useEffect(() => {
-    fetch(`http://localhost:5001/api/listings/${id}`)
+    fetch(`${API_URL}/api/listings/${id}`)
       .then(res => res.json())
       .then(data => {
         // ✅ если нет массива фото — делаем из одного

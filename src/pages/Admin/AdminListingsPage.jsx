@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Button from "../../components/ui/Button/Button.jsx";
 import Modal from "../../components/ui/Modal/Modal.jsx";
 import "./AdminListingsPage.scss";
-
+import { API_URL } from "../../config/api.js";
 
 
 
@@ -23,7 +23,7 @@ export default function AdminListingsPage() {
     if (search) params.append("search", search);
 
     const res = await fetch(
-      `http://localhost:5001/api/admin/listings?${params.toString()}`,
+      `${API_URL}/api/admin/listings?${params.toString()}`,
       {
         headers: { Authorization: `Bearer ${token}` }
       }

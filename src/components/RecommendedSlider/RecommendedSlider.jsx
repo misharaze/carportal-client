@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./RecommendedSlider.scss";
 import Card from "../../components/Card/Card";
-
+import { API_URL } from "../../config/api";
 export default function RecommendedSlider() {
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +30,7 @@ export default function RecommendedSlider() {
   useEffect(() => {
     setLoading(true);
 
-    fetch("http://localhost:5001/api/listings?limit=10")
+    fetch(`${API_URL}/api/listings?limit=10`)
       .then(res => res.json())
       .then(data => {
         setCars(data.items || []);

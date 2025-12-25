@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import "./AuthPage.scss";
 import { Context } from "../../index";
 import Button from "../../components/ui/Button/Button";
+import { API_URL } from "../../config/api";
 
 export default function AuthPage() {
   const [mode, setMode] = useState("login");
@@ -24,7 +25,7 @@ export default function AuthPage() {
   
     // 🔐 FORGOT PASSWORD
     if (mode === "forgot") {
-      const res = await fetch("http://localhost:5001/api/auth/forgot-password", {
+      const res = await fetch(`${API_URL}/api/auth/forgot-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: form.email })
@@ -42,8 +43,8 @@ export default function AuthPage() {
     // 🔐 LOGIN / REGISTER
     const url =
       mode === "login"
-        ? "http://localhost:5001/api/auth/login"
-        : "http://localhost:5001/api/auth/register";
+        ? `${API_URL}/api/auth/login`
+        : `${API_URL}/api/auth/register`;
   
     try {
       const res = await fetch(url, {
@@ -61,7 +62,7 @@ export default function AuthPage() {
   
       localStorage.setItem("token", data.token);
   
-      const profileRes = await fetch("http://localhost:5001/api/user/profile", {
+      const profileRes = await fetch(`${API_URL}/api/user/profile`, {
         headers: {
           Authorization: `Bearer ${data.token}`
         }

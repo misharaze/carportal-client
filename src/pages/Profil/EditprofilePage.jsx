@@ -3,7 +3,7 @@ import "./EditProfilPage.scss";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../index";
-
+import { API_URL } from "../../config/api";
 export default function EditProfilePage() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -21,7 +21,7 @@ export default function EditProfilePage() {
 
   // ✅ ЗАГРУЗКА ПРОФИЛЯ
   useEffect(() => {
-    fetch("http://localhost:5001/api/user/profile", {
+    fetch(`${API_URL}/api/user/profile`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())
@@ -45,7 +45,7 @@ export default function EditProfilePage() {
     };
 
     try {
-      const res = await fetch("http://localhost:5001/api/user/profile", {
+      const res = await fetch(`${API_URL}/api/user/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -75,7 +75,7 @@ export default function EditProfilePage() {
     formData.append("avatar", file);
 
     try {
-      const res = await fetch("http://localhost:5001/api/user/avatar", {
+      const res = await fetch(`${API_URL}/api/user/avatar`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`

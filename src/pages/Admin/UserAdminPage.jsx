@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Button from "../../components/ui/Button/Button.jsx";
 import Modal from "../../components/ui/Modal/Modal.jsx";
+import { API_URL } from "../../config/api.js";
 
 export default function AdminUsersPage() {
   const [users, setUsers] = useState([]);
@@ -16,7 +17,7 @@ const load = async () => {
       return;
     }
 
-    const res = await fetch("http://localhost:5001/api/admin/users", {
+    const res = await fetch(`${API_URL}/api/admin/users`, {
       headers: { Authorization: `Bearer ${token}` }
     });
 
@@ -42,7 +43,7 @@ const load = async () => {
 
   const remove = async () => {
     await fetch(
-      `http://localhost:5001/api/admin/users/${confirm.id}`,
+      `${API_URL}/api/admin/users/${confirm.id}`,
       {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` }

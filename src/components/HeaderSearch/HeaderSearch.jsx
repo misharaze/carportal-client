@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SearchIcon } from "../ui/icons";
 import './HeaderSearch.scss'
-
+import { API_URL } from "../../config/api.js";
 
 export default function HeaderSearch() {
   const [query, setQuery] = useState("");
@@ -22,7 +22,7 @@ export default function HeaderSearch() {
 
     clearTimeout(timer.current);
     timer.current = setTimeout(() => {
-      fetch(`http://localhost:5001/api/search?q=${query}`)
+      fetch(`${API_URL}/api/search?q=${query}`)
         .then(res => res.json())
         .then(data => {
           setResults(data || []);

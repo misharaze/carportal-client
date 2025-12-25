@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./StatsPage.scss";
+import { API_URL } from "../../config/api.js";
 
 export default function AdminStatsPage() {
   const [stats, setStats] = useState(null);
@@ -7,7 +8,7 @@ export default function AdminStatsPage() {
   useEffect(() => {
     const token = localStorage.getItem("token");
   
-    fetch("http://localhost:5001/api/admin/stats", {
+    fetch(`${API_URL}/api/admin/stats`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())

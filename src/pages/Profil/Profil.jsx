@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Profil.scss";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import { API_URL } from "../../config/api";
 export default function ProfilePage() {
   const [data, setData] = useState(null);
   const location = useLocation();
@@ -10,7 +10,7 @@ export default function ProfilePage() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:5001/api/user/profile", {
+    fetch(`${API_URL}/api/user/profile`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())
@@ -40,7 +40,7 @@ export default function ProfilePage() {
           <img
   src={
     user.avatar
-      ? `http://localhost:5001${user.avatar}`
+      ? `${API_URL}{user.avatar}`
       : "/avatar-placeholder.png"
   }
   className="profile__avatar"
