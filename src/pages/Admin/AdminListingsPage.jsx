@@ -64,7 +64,7 @@ export default function AdminListingsPage() {
 
   const confirmDelete = async () => {
     await fetch(
-      `http://localhost:5001/api/admin/listings/${confirmModal.id}`,
+      `${API_URL}/api/admin/listings/${confirmModal.id}`,
       {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` }
