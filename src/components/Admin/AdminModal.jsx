@@ -7,70 +7,43 @@ export default function AdminModal({
   children,
   onClose,
   onConfirm,
-  confirmText = "Сохранить",
+  confirmText = "Подтвердить",
   cancelText = "Отмена",
   showFooter = true,
-  size = "md", // sm | md | lg
-  closeOnBackdrop = true
+  size = "md",
+  closeOnBackdrop = true,
 }) {
-  // Закрытие по ESC
   useEffect(() => {
     if (!isOpen) return;
 
-    const onKeyDown = (e) => {
-      if (e.key === "Escape") onClose?.();
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    const onKey = (e) => e.key === "Escape" && onClose?.();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
-  const sizeClass =
-    size === "sm" ? "admin-modal__content--sm"
-    : size === "lg" ? "admin-modal__content--lg"
-    : "admin-modal__content--md";
-
-  const handleBackdropClick = (e) => {
-    if (e.target === e.currentTarget && closeOnBackdrop) {
-      onClose?.();
-    }
-  };
-
   return (
-    <div className="admin-modal" onClick={handleBackdropClick}>
-      <div className={`admin-modal__content ${sizeClass}`}>
-        <div className="admin-modal__header">
+    <div className="modal-backdrop" onClick={closeOnBackdrop ? onClose : undefined}>
+      <div
+        className={`modal-card modal-${size}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="modal-header">
           <h3>{title}</h3>
-          <button
-            type="button"
-            className="admin-modal__close"
-            onClick={onClose}
-          >
-            ✕
-          </button>
+          <button className="modal-close" onClick={onClose}>✕</button>
         </div>
 
-        <div className="admin-modal__body">
-          {children}
-        </div>
+        <div className="modal-body">{children}</div>
 
         {showFooter && (
-          <div className="admin-modal__footer">
-            <button
-              type="button"
-              className="admin-modal__btn admin-modal__btn--ghost"
-              onClick={onClose}
-            >
+          <div className="modal-footer">
+            <button className="btn ghost" onClick={onClose}>
               {cancelText}
             </button>
+
             {onConfirm && (
-              <button
-                type="button"
-                className="admin-modal__btn admin-modal__btn--primary"
-                onClick={onConfirm}
-              >
+              <button className="btn primary" onClick={onConfirm}>
                 {confirmText}
               </button>
             )}
