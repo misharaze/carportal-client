@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "../../components/ui/Button/Button.jsx";
 import Modal from "../../components/ui/Modal/Modal.jsx";
 import { API_URL } from "../../config/api.js";
+import GlassButton from "../../components/GlassButton/GlassButton.jsx";
 
 export default function AdminUsersPage() {
   const [users, setUsers] = useState([]);
@@ -75,9 +76,9 @@ const load = async () => {
         <td>{u.role}</td>
         <td>{u.isBanned ? "Заблокирован" : "Активен"}</td>
         <td>
-          <Button danger onClick={() => setConfirm(u)}>
+          <GlassButton danger onClick={() => setConfirm(u)}>
             Удалить
-          </Button>
+          </GlassButton>
         </td>
       </tr>
 

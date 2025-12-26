@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import AdminCard from "../../components/Admin/AdminCard.jsx";
+import { API_URL } from "../../config/api.js";
 
 export default function DashboardPage() {
   const [stats, setStats] = useState(null);
@@ -7,7 +8,7 @@ export default function DashboardPage() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("${API_URL}/api/admin/stats", {
+    fetch(`${API_URL}/api/admin/stats`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())

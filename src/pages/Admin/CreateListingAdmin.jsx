@@ -51,7 +51,7 @@ export default function CreateListingAdmin() {
       formData.append("userId", selectedUser);
     }
 
-    const res = await fetch("http://localhost:5001/api/admin/listings", {
+    const res = await fetch(`${API_URL}/api/admin/listings`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`
@@ -77,7 +77,7 @@ export default function CreateListingAdmin() {
     const text = await file.text();
     const data = JSON.parse(text);
 
-    const res = await fetch("http://localhost:5001/api/admin/listings/bulk", {
+    const res = await fetch(`${API_URL}/api/admin/listings/bulk`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
