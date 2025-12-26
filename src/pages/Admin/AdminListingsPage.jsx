@@ -43,7 +43,7 @@ export default function AdminListingsPage() {
     if (!confirmModal) return;
 
     await fetch(
-      `http://localhost:5001/api/admin/listings/${confirmModal.id}/status`,
+      `${API_URL}/api/admin/listings/${confirmModal.id}/status`,
       {
         method: "PATCH",
         headers: {
