@@ -1,19 +1,16 @@
-
 import { useEffect, useState } from "react";
 import Button from "../../components/ui/Button/Button.jsx";
 import Modal from "../../components/ui/Modal/Modal.jsx";
 import "./AdminListingsPage.scss";
 import { API_URL } from "../../config/api.js";
 
-
-
 export default function AdminListingsPage() {
   const [items, setItems] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
   const [search, setSearch] = useState("");
 
-  // 🔥 модалка подтверждения
-  const [confirmModal, setConfirmModal] = useState(null);
+  // 👇 единая модалка
+  const [modal, setModal] = useState(null);
 
   const token = localStorage.getItem("token");
 
@@ -35,43 +32,41 @@ export default function AdminListingsPage() {
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line
   }, []);
 
-  // ✅ реальный запрос изменения статуса
-  const confirmChangeStatus = async () => {
-    if (!confirmModal) return;
+  // ✅ подтверждение смены статуса
+  const confirmStatus = async () => {
+    if (!modal) return;
 
     await fetch(
-      `${API_URL}/api/admin/listings/${confirmModal.id}/status`,
+      `${API_URL}/api/admin/listings/${modal.id}/status`,
       {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ status: confirmModal.status })
+        body: JSON.stringify({ status: modal.type })
       }
     );
 
-    setConfirmModal(null);
+    setModal(null);
     load();
   };
 
-  const remove = async (id) => {
-    setConfirmModal({ id, delete: true });
-  };
-
+  // ✅ удаление
   const confirmDelete = async () => {
+    if (!modal) return;
+
     await fetch(
-      `${API_URL}/api/admin/listings/${confirmModal.id}`,
+      `${API_URL}/api/admin/listings/${modal.id}`,
       {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` }
       }
     );
 
-    setConfirmModal(null);
+    setModal(null);
     load();
   };
 
@@ -81,10 +76,7 @@ export default function AdminListingsPage() {
 
       {/* ФИЛЬТРЫ */}
       <div className="admin-listings__filters">
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-        >
+        <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
           <option value="">Все статусы</option>
           <option value="pending">На модерации</option>
           <option value="approved">Одобренные</option>
@@ -92,7 +84,7 @@ export default function AdminListingsPage() {
         </select>
 
         <input
-          placeholder="Поиск по марке/модели"
+          placeholder="Поиск по марке / модели"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -138,9 +130,7 @@ export default function AdminListingsPage() {
                 <Button
                   success
                   disabled={l.status === "approved"}
-                  onClick={() =>
-                    setConfirmModal({ id: l.id, status: "approved" })
-                  }
+                  onClick={() => setModal({ type: "approved", id: l.id })}
                 >
                   Одобрить
                 </Button>
@@ -148,14 +138,15 @@ export default function AdminListingsPage() {
                 <Button
                   danger
                   disabled={l.status === "rejected"}
-                  onClick={() =>
-                    setConfirmModal({ id: l.id, status: "rejected" })
-                  }
+                  onClick={() => setModal({ type: "rejected", id: l.id })}
                 >
                   Отклонить
                 </Button>
 
-                <Button variant="danger" onClick={() => remove(l.id)}>
+                <Button
+                  variant="danger"
+                  onClick={() => setModal({ type: "delete", id: l.id })}
+                >
                   Удалить
                 </Button>
               </td>
@@ -164,21 +155,40 @@ export default function AdminListingsPage() {
         </tbody>
       </table>
 
-      {/* 🔥 MODAL */}
+      {/* ================= MODAL ================= */}
       <Modal
-        open={!!confirmModal}
-        title="Подтверждение"
-        onClose={() => setConfirmModal(null)}
+        open={!!modal}
+        title={
+          modal?.type === "delete"
+            ? "Удалить объявление?"
+            : modal?.type === "approved"
+            ? "Одобрить объявление?"
+            : "Отклонить объявление?"
+        }
+        onClose={() => setModal(null)}
       >
-        {confirmModal?.delete ? (
+        {modal?.type === "delete" && (
           <>
-            <p>Удалить объявление?</p>
-            <Button danger onClick={confirmDelete}>Да, удалить</Button>
+            <p>Это действие нельзя отменить.</p>
+            <Button danger onClick={confirmDelete}>
+              Да, удалить
+            </Button>
           </>
-        ) : (
+        )}
+
+        {modal?.type === "approved" && (
           <>
-            <p>Изменить статус объявления?</p>
-            <Button onClick={confirmChangeStatus}>Подтвердить</Button>
+            <p>Объявление станет доступно всем пользователям.</p>
+            <Button onClick={confirmStatus}>Подтвердить</Button>
+          </>
+        )}
+
+        {modal?.type === "rejected" && (
+          <>
+            <p>Объявление будет отклонено и скрыто.</p>
+            <Button danger onClick={confirmStatus}>
+              Отклонить
+            </Button>
           </>
         )}
       </Modal>
