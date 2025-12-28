@@ -4,53 +4,6 @@ import { API_URL } from "../../config/api";
 import toast from "react-hot-toast";
 
 export default function AdminSettingsPage() {
-  const token = localStorage.getItem("token");
-
-  const [loading, setLoading] = useState(true);
-
-useEffect(() => {
-  const saved = localStorage.getItem("theme");
-  if (saved) {
-    document.documentElement.setAttribute("data-theme", saved);
-    setTheme(saved);
-  }
-}, []);
-
-useEffect(() => {
-  fetch(`${API_URL}/api/admin/settings`, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-  })
-    .then(r => r.json())
-    .then(data => {
-      setMaintenance(data.maintenance);
-      setAllowRegistration(data.allowRegistration);
-      setEmailNotifications(data.emailNotifications);
-      setLogLevel(data.logLevel);
-    });
-}, []);
-
-const handleSave = async (e) => {
-  e.preventDefault();
-
-  await fetch(`${API_URL}/api/admin/settings`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("token")}`
-    },
-    body: JSON.stringify({
-      maintenance,
-      allowRegistration,
-      emailNotifications,
-      logLevel
-    })
-  });
-
-  alert("Настройки сохранены");
-};
-
-
-
   const [settings, setSettings] = useState({
     maintenance: false,
     allowRegistration: true,
@@ -59,81 +12,83 @@ const handleSave = async (e) => {
     theme: "dark"
   });
 
-  // ✅ загрузка при входе
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     fetch(`${API_URL}/api/admin/settings`, {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
     })
       .then(r => r.json())
       .then(data => {
         setSettings(data);
-        setLoading(false);
+        document.documentElement.setAttribute("data-theme", data.theme);
       })
-      .catch(() => {
-        toast.error("Ошибка загрузки настроек");
-        setLoading(false);
-      });
+      .finally(() => setLoading(false));
   }, []);
 
-  const update = (key, value) => {
+  const update = (key, value) =>
     setSettings(prev => ({ ...prev, [key]: value }));
+
+  const changeTheme = (value) => {
+    update("theme", value);
+    document.documentElement.setAttribute("data-theme", value);
+    localStorage.setItem("theme", value);
   };
 
-const changeTheme = (value) => {
-  setTheme(value);
-  document.documentElement.setAttribute("data-theme", value);
-  localStorage.setItem("theme", value);
-};
+  const handleSave = async (e) => {
+    e.preventDefault();
 
+    await fetch(`${API_URL}/api/admin/settings`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+      body: JSON.stringify(settings)
+    });
 
-
-
+    toast.success("Настройки сохранены");
+  };
 
   if (loading) return <div className="admin-settings">Загрузка...</div>;
 
   return (
     <div className="admin-settings fade-in">
-      <div className="admin-settings__header">
-        <h1>Настройки портала</h1>
-        <p>Глобальные параметры работы системы</p>
-      </div>
-
       <form className="admin-settings__content" onSubmit={handleSave}>
 
-        {/* --- РЕЖИМ --- */}
         <section>
           <h2>Режим работы</h2>
 
           <SettingToggle
             title="Техническое обслуживание"
-            desc="Сайт станет недоступен для пользователей"
+            desc="Сайт временно недоступен"
             value={settings.maintenance}
             onChange={v => update("maintenance", v)}
           />
 
           <SettingToggle
-            title="Регистрация пользователей"
-            desc="Разрешить создание аккаунтов"
+            title="Регистрация"
+            desc="Разрешить регистрацию пользователей"
             value={settings.allowRegistration}
             onChange={v => update("allowRegistration", v)}
           />
         </section>
 
-        {/* --- УВЕДОМЛЕНИЯ --- */}
         <section>
           <h2>Уведомления</h2>
 
           <SettingToggle
             title="Email уведомления"
-            desc="Отправлять системные уведомления"
+            desc="Отправка писем администраторам"
             value={settings.emailNotifications}
             onChange={v => update("emailNotifications", v)}
           />
 
           <div className="settings-row">
             <div className="settings-row__text">
-              <h4>Уровень логирования</h4>
-              <p>Глубина логов сервера</p>
+              <h4>Уровень логов</h4>
             </div>
 
             <select
@@ -148,33 +103,25 @@ const changeTheme = (value) => {
           </div>
         </section>
 
-        {/* --- ВНЕШНИЙ ВИД --- */}
         <section>
-          <h2>Внешний вид</h2>
+          <h2>Тема</h2>
 
-          <div className="settings-row">
-            <div className="settings-row__text">
-              <h4>Тема панели</h4>
-              <p>Оформление административной части</p>
-            </div>
+          <div className="settings-row__options">
+            <button
+              type="button"
+              className={`theme-btn ${settings.theme === "dark" ? "theme-btn--active" : ""}`}
+              onClick={() => changeTheme("dark")}
+            >
+              Dark
+            </button>
 
-            <div className="settings-row__options">
-             <button
-  type="button"
-  className={`theme-btn ${theme === "dark" ? "theme-btn--active" : ""}`}
-  onClick={() => changeTheme("dark")}
->
-  Dark
-</button>
-
-             <button
-  type="button"
-  className={`theme-btn ${theme === "light" ? "theme-btn--active" : ""}`}
-  onClick={() => changeTheme("light")}
->
-  Light
-</button>
-            </div>
+            <button
+              type="button"
+              className={`theme-btn ${settings.theme === "light" ? "theme-btn--active" : ""}`}
+              onClick={() => changeTheme("light")}
+            >
+              Light
+            </button>
           </div>
         </section>
 
@@ -184,26 +131,6 @@ const changeTheme = (value) => {
           </button>
         </div>
       </form>
-    </div>
-  );
-}
-
-/* маленький компонент */
-function SettingToggle({ title, desc, value, onChange }) {
-  return (
-    <div className="settings-row">
-      <div className="settings-row__text">
-        <h4>{title}</h4>
-        <p>{desc}</p>
-      </div>
-      <label className="switch">
-        <input
-          type="checkbox"
-          checked={value}
-          onChange={e => onChange(e.target.checked)}
-        />
-        <span className="slider" />
-      </label>
     </div>
   );
 }
