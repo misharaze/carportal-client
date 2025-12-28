@@ -25,3 +25,12 @@ code {
     transform: translateY(0);
   }
 }
+:root[data-theme="dark"] {
+  --bg: #020617;
+  --text: #e5e7eb;
+}
+
+:root[data-theme="light"] {
+  --bg: #f9fafb;
+  --text: #111827;
+}

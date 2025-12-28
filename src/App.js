@@ -30,6 +30,7 @@ import ForgotPasswordPage from "./pages/Auth/ForgotPassword";
 import ResetPasswordPage from "./pages/Auth/ResetPasswordPage";
 
 import AuthProvider from "./Context/AuthProvider.jsx";
+import "./style/Themes.scss";
 
 import "./style/Mains.scss";
 import ContactPage from "./pages/Contact/ContactPage.jsx";

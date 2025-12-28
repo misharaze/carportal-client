@@ -1,134 +1,179 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./SettingsPage.scss";
+import { API_URL } from "../../config/api";
+import toast from "react-hot-toast";
 
 export default function AdminSettingsPage() {
-  const [maintenance, setMaintenance] = useState(false);
-  const [allowRegistration, setAllowRegistration] = useState(true);
-  const [emailNotifications, setEmailNotifications] = useState(true);
-  const [logLevel, setLogLevel] = useState("info");
-  const [theme, setTheme] = useState("dark");
+  const token = localStorage.getItem("token");
 
-  const handleSave = (e) => {
-    e.preventDefault();
-    // тут можно сделать запрос на бэк
-    console.log({
+  const [loading, setLoading] = useState(true);
+
+useEffect(() => {
+  const saved = localStorage.getItem("theme");
+  if (saved) {
+    document.documentElement.setAttribute("data-theme", saved);
+    setTheme(saved);
+  }
+}, []);
+
+useEffect(() => {
+  fetch(`${API_URL}/api/admin/settings`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+  })
+    .then(r => r.json())
+    .then(data => {
+      setMaintenance(data.maintenance);
+      setAllowRegistration(data.allowRegistration);
+      setEmailNotifications(data.emailNotifications);
+      setLogLevel(data.logLevel);
+    });
+}, []);
+
+const handleSave = async (e) => {
+  e.preventDefault();
+
+  await fetch(`${API_URL}/api/admin/settings`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    },
+    body: JSON.stringify({
       maintenance,
       allowRegistration,
       emailNotifications,
-      logLevel,
-      theme
-    });
-    alert("Настройки сохранены (пока только в консоли)");
+      logLevel
+    })
+  });
+
+  alert("Настройки сохранены");
+};
+
+
+
+  const [settings, setSettings] = useState({
+    maintenance: false,
+    allowRegistration: true,
+    emailNotifications: true,
+    logLevel: "info",
+    theme: "dark"
+  });
+
+  // ✅ загрузка при входе
+  useEffect(() => {
+    fetch(`${API_URL}/api/admin/settings`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(r => r.json())
+      .then(data => {
+        setSettings(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        toast.error("Ошибка загрузки настроек");
+        setLoading(false);
+      });
+  }, []);
+
+  const update = (key, value) => {
+    setSettings(prev => ({ ...prev, [key]: value }));
   };
+
+const changeTheme = (value) => {
+  setTheme(value);
+  document.documentElement.setAttribute("data-theme", value);
+  localStorage.setItem("theme", value);
+};
+
+
+
+
+
+  if (loading) return <div className="admin-settings">Загрузка...</div>;
 
   return (
     <div className="admin-settings fade-in">
       <div className="admin-settings__header">
-        <div>
-          <h1>Настройки портала</h1>
-          <p>Глобальные параметры работы автомобильного портала</p>
-        </div>
+        <h1>Настройки портала</h1>
+        <p>Глобальные параметры работы системы</p>
       </div>
 
       <form className="admin-settings__content" onSubmit={handleSave}>
+
+        {/* --- РЕЖИМ --- */}
         <section>
           <h2>Режим работы</h2>
-          <div className="settings-row">
-            <div className="settings-row__text">
-              <h4>Техническое обслуживание</h4>
-              <p>
-                Перевести сайт в режим обслуживания. Пользователи увидят
-                страницу “Сервис временно недоступен”.
-              </p>
-            </div>
-            <label className="switch">
-              <input
-                type="checkbox"
-                checked={maintenance}
-                onChange={(e) => setMaintenance(e.target.checked)}
-              />
-              <span className="slider" />
-            </label>
-          </div>
 
-          <div className="settings-row">
-            <div className="settings-row__text">
-              <h4>Регистрация пользователей</h4>
-              <p>Разрешить создание новых аккаунтов на портале.</p>
-            </div>
-            <label className="switch">
-              <input
-                type="checkbox"
-                checked={allowRegistration}
-                onChange={(e) => setAllowRegistration(e.target.checked)}
-              />
-              <span className="slider" />
-            </label>
-          </div>
+          <SettingToggle
+            title="Техническое обслуживание"
+            desc="Сайт станет недоступен для пользователей"
+            value={settings.maintenance}
+            onChange={v => update("maintenance", v)}
+          />
+
+          <SettingToggle
+            title="Регистрация пользователей"
+            desc="Разрешить создание аккаунтов"
+            value={settings.allowRegistration}
+            onChange={v => update("allowRegistration", v)}
+          />
         </section>
 
+        {/* --- УВЕДОМЛЕНИЯ --- */}
         <section>
-          <h2>Уведомления и логи</h2>
+          <h2>Уведомления</h2>
 
-          <div className="settings-row">
-            <div className="settings-row__text">
-              <h4>Email-уведомления</h4>
-              <p>Отправлять системные уведомления администраторам по email.</p>
-            </div>
-            <label className="switch">
-              <input
-                type="checkbox"
-                checked={emailNotifications}
-                onChange={(e) => setEmailNotifications(e.target.checked)}
-              />
-              <span className="slider" />
-            </label>
-          </div>
+          <SettingToggle
+            title="Email уведомления"
+            desc="Отправлять системные уведомления"
+            value={settings.emailNotifications}
+            onChange={v => update("emailNotifications", v)}
+          />
 
           <div className="settings-row">
             <div className="settings-row__text">
               <h4>Уровень логирования</h4>
-              <p>Выберите, сколько подробностей писать в логи.</p>
+              <p>Глубина логов сервера</p>
             </div>
+
             <select
-              value={logLevel}
-              onChange={(e) => setLogLevel(e.target.value)}
+              value={settings.logLevel}
+              onChange={e => update("logLevel", e.target.value)}
             >
-              <option value="error">Только ошибки</option>
-              <option value="warn">Предупреждения и ошибки</option>
-              <option value="info">Инфо + предупреждения + ошибки</option>
-              <option value="debug">Debug (максимум деталей)</option>
+              <option value="error">Ошибки</option>
+              <option value="warn">Предупреждения</option>
+              <option value="info">Информация</option>
+              <option value="debug">Debug</option>
             </select>
           </div>
         </section>
 
+        {/* --- ВНЕШНИЙ ВИД --- */}
         <section>
           <h2>Внешний вид</h2>
 
           <div className="settings-row">
             <div className="settings-row__text">
-              <h4>Тема админки</h4>
-              <p>Выберите основной режим отображения панели администратора.</p>
+              <h4>Тема панели</h4>
+              <p>Оформление административной части</p>
             </div>
+
             <div className="settings-row__options">
-              <button
-                type="button"
-                className={
-                  "theme-btn " + (theme === "dark" ? "theme-btn--active" : "")
-                }
-                onClick={() => setTheme("dark")}
-              >
-                Dark
-              </button>
-              <button
-                type="button"
-                className={
-                  "theme-btn " + (theme === "light" ? "theme-btn--active" : "")
-                }
-                onClick={() => setTheme("light")}
-              >
-                Light
-              </button>
+             <button
+  type="button"
+  className={`theme-btn ${theme === "dark" ? "theme-btn--active" : ""}`}
+  onClick={() => changeTheme("dark")}
+>
+  Dark
+</button>
+
+             <button
+  type="button"
+  className={`theme-btn ${theme === "light" ? "theme-btn--active" : ""}`}
+  onClick={() => changeTheme("light")}
+>
+  Light
+</button>
             </div>
           </div>
         </section>
@@ -139,6 +184,26 @@ export default function AdminSettingsPage() {
           </button>
         </div>
       </form>
+    </div>
+  );
+}
+
+/* маленький компонент */
+function SettingToggle({ title, desc, value, onChange }) {
+  return (
+    <div className="settings-row">
+      <div className="settings-row__text">
+        <h4>{title}</h4>
+        <p>{desc}</p>
+      </div>
+      <label className="switch">
+        <input
+          type="checkbox"
+          checked={value}
+          onChange={e => onChange(e.target.checked)}
+        />
+        <span className="slider" />
+      </label>
     </div>
   );
 }

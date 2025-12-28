@@ -6,7 +6,20 @@ import { createContext } from "react";
 import UserStore from "./Store/UserStore";
 import NotificationStore from "./Store/NotificationsStore";
 import "./style/Mains.scss"
+import "./style/Themes.scss";
 export const Context = createContext(null);
+
+
+useEffect(() => {
+  fetch(`${API_URL}/api/settings`)
+    .then(r => r.json())
+    .then(data => {
+      document.documentElement.dataset.theme = data.theme;
+    });
+}, []);
+
+
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 

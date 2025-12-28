@@ -1,0 +1,18 @@
+:root {
+  --bg-main: #020617;
+  --bg-card: #020617;
+  --text-main: #e5e7eb;
+  --text-muted: #9ca3af;
+  --border: rgba(55, 65, 81, 0.6);
+  --accent: #22c55e;
+}
+
+/* LIGHT THEME */
+[data-theme="light"] {
+  --bg-main: #f9fafb;
+  --bg-card: #ffffff;
+  --text-main: #111827;
+  --text-muted: #6b7280;
+  --border: rgba(0, 0, 0, 0.1);
+  --accent: #2563eb;
+}
