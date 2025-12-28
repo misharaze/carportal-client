@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./SettingsPage.scss";
 import { API_URL } from "../../config/api";
 import toast from "react-hot-toast";
+import SettingToggle from "../../components/SettingsToggle/SettingsToggle";
 
 export default function AdminSettingsPage() {
   const [settings, setSettings] = useState({
