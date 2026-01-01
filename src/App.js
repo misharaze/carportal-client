@@ -34,6 +34,8 @@ import "./style/Themes.scss";
 
 import "./style/Mains.scss";
 import ContactPage from "./pages/Contact/ContactPage.jsx";
+import MessagesPage from "./pages/Messages/MessagePage.jsx";
+import ChatPage from "./pages/Messages/ChatPage.jsx";
 
 const App = observer(() => {
   return (
@@ -94,6 +96,23 @@ const App = observer(() => {
   element={
     <ProtectedRoute>
       <CreateListingPage />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/messages"
+  element={
+    <ProtectedRoute>
+      <MessagesPage />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/messages/:id"
+  element={
+    <ProtectedRoute>
+      <ChatPage />
     </ProtectedRoute>
   }
 />

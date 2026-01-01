@@ -1,0 +1,40 @@
+.message-input {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  border-top: 1px solid #1f2937;
+  background: #020617;
+}
+
+.message-input textarea {
+  flex: 1;
+  resize: none;
+  border-radius: 14px;
+  border: 1px solid #334155;
+  padding: 10px 14px;
+  background: #020617;
+  color: #e5e7eb;
+  min-height: 42px;
+  max-height: 120px;
+  outline: none;
+}
+
+.message-input textarea::placeholder {
+  color: #6b7280;
+}
+
+.message-input button {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  border: none;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  cursor: pointer;
+  color: #022c22;
+  font-size: 18px;
+  transition: transform 0.1s ease;
+}
+
+.message-input button:hover {
+  transform: scale(1.05);
+}

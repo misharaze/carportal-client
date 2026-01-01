@@ -319,3 +319,29 @@
     gap: 10px;
   }
 }
+.header__chat {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  margin-right: 10px;
+  position: relative;
+  color: #e5e7eb;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    opacity: 0.85;
+  }
+}
+.chat-badge {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  background: #ef4444;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-weight: 600;
+}

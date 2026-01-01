@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import "./ListingDetailsPage.scss";
 import CarHistoryCheck from "../../components/CarHistoryCheck/CarHistoryCheck";
 import { API_URL } from "../../config/api";
+import { useNavigate } from "react-router-dom";
+
 
 export default function ListingDetailsPage() {
   const { id } = useParams();
@@ -21,6 +23,50 @@ export default function ListingDetailsPage() {
   }, [id]);
 
   if (!car) return <p className="loading">Загрузка...</p>;
+
+const navigate = useNavigate();
+
+const handleMessage = async () => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("Войдите, чтобы написать продавцу");
+    return;
+
+
+  }
+if (car.userId === JSON.parse(atob(token.split(".")[1])).id) {
+    alert("Нельзя написать самому себе");
+    return;
+  }
+
+
+  const res = await fetch(`${API_URL}/api/messages`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      listingId: car.id,
+      text: "Здравствуйте! Меня интересует это объявление."
+    })
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    alert(err.error || "Ошибка");
+    return;
+  }
+
+  const data = await res.json();
+
+  // 👉 переход в диалог
+  navigate(`/messages/${data.conversationId}`);
+};
+
+
+
 
   return (
     <div className="details fade-in">
@@ -72,7 +118,10 @@ export default function ListingDetailsPage() {
           {/* ✅ КНОПКИ */}
           <div className="details__actions">
             <button className="buy-btn">Купить сейчас</button>
-            <button className="message-btn">Написать продавцу</button>
+       
+       <button className="message-btn" onClick={handleMessage}>
+  Написать продавцу
+</button>
             <button className="save-btn">В избранное</button>
           </div>
         </div>

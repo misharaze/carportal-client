@@ -83,7 +83,7 @@ const Header = observer(() => {
         </nav>
 
 
-        {/* ACTIONS */}
+       
         <div className="header__actions">
 
        <HeaderSearch/>
@@ -96,6 +96,21 @@ const Header = observer(() => {
       🛠
     </button>
   )}
+
+  
+{user.isAuth && (
+  <button
+    className="header__chat"
+    onClick={() => navigate("/messages")}
+  >
+    💬
+    {user.unreadMessages > 0 && (
+      <span className="chat-badge">{user.unreadMessages}</span>
+    )}
+  </button>
+)}
+
+  
 
           {/* NOTIFY */}
           {user.isAuth && (
