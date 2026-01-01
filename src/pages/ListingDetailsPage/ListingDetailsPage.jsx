@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./ListingDetailsPage.scss";
 import CarHistoryCheck from "../../components/CarHistoryCheck/CarHistoryCheck";
@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 export default function ListingDetailsPage() {
   const { id } = useParams();
   const [car, setCar] = useState(null);
+  const navigate = useNavigate();
   const [activeImage, setActiveImage] = useState(0);
 
   useEffect(() => {
@@ -24,7 +25,7 @@ export default function ListingDetailsPage() {
 
   if (!car) return <p className="loading">Загрузка...</p>;
 
-const navigate = useNavigate();
+
 
 const handleMessage = async () => {
   const token = localStorage.getItem("token");
