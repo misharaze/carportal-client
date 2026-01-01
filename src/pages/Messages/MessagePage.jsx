@@ -22,9 +22,27 @@ export default function MessagesPage() {
       <h1>Сообщения</h1>
 
       <div className="conversation-list">
-        {conversations.length === 0 && (
-          <p className="empty">Пока нет диалогов</p>
-        )}
+
+{conversations.length === 0 && (
+  <div className="messages-empty">
+    <div className="messages-empty__icon">💬</div>
+
+    <h3>У вас пока нет сообщений</h3>
+
+    <p>
+      Напишите продавцу под объявлением, чтобы начать диалог.
+    </p>
+
+    <button
+      className="messages-empty__btn"
+      onClick={() => navigate("/listings")}
+    >
+      Перейти к объявлениям
+    </button>
+  </div>
+)}
+
+        
 
         {conversations.map(c => (
           <div
