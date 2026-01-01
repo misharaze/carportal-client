@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { API_URL } from "../../config/api";
 import { Link } from "react-router-dom";
+import "./Messages.scss"
 
 export default function InboxPage() {
   const [conversations, setConversations] = useState([]);
