@@ -34,7 +34,7 @@ import "./style/Themes.scss";
 
 import "./style/Mains.scss";
 import ContactPage from "./pages/Contact/ContactPage.jsx";
-import MessagePage from "./pages/Messages/MessagePage.jsx";
+import MessagesPage from "./pages/Messages/MessagesPage.jsx";
 import ChatPage from "./pages/Messages/ChatPage.jsx";
 
 const App = observer(() => {
@@ -103,7 +103,7 @@ const App = observer(() => {
   path="/messages"
   element={
     <ProtectedRoute>
-      <MessagePage />
+      <MessagesPage />
     </ProtectedRoute>
   }
 />

@@ -6,17 +6,42 @@ import "./Messages.scss";
 export default function MessagesPage() {
   const [conversations, setConversations] = useState([]);
   const navigate = useNavigate();
+console.log("MessagesPage mounted");
 
-  useEffect(() => {
-    fetch(`${API_URL}/api/messages/conversations`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`
+
+
+useEffect(() => {
+  const load = async () => {
+    try {
+      const res = await fetch(`${API_URL}/api/messages/conversations`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      if (!res.ok) {
+        console.error("Ошибка сервера:", res.status);
+        setConversations([]);
+        return;
       }
-    })
-      .then(r => r.json())
-      .then(setConversations)
-      .catch(console.error);
-  }, []);
+
+      const data = await res.json();
+
+      if (Array.isArray(data)) {
+        setConversations(data);
+      } else {
+        console.error("Ответ не массив:", data);
+        setConversations([]);
+      }
+    } catch (err) {
+      console.error("Ошибка загрузки диалогов:", err);
+      setConversations([]);
+    }
+  };
+
+  load();
+}, []);
+
 
   return (
     <div className="messages-page">
@@ -37,6 +62,7 @@ export default function MessagesPage() {
         </div>
       ) : (
         <div className="conversation-list">
+
           {conversations.map(c => (
             <div
               key={c.id}
