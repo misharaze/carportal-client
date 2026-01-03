@@ -42,17 +42,17 @@ if (car.userId === JSON.parse(atob(token.split(".")[1])).id) {
   }
 
 
-  const res = await fetch(`${API_URL}/api/messages`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
-    },
-    body: JSON.stringify({
-      listingId: car.id,
-      text: "Здравствуйте! Меня интересует это объявление."
-    })
-  });
+const res = await fetch(`${API_URL}/api/messages/start`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`
+  },
+  body: JSON.stringify({
+    listingId: car.id,
+    text: "Здравствуйте! Меня интересует это объявление."
+  })
+});
 
   if (!res.ok) {
     const err = await res.json();
