@@ -1,55 +1,79 @@
 // pages/Messages/ChatPage.jsx
 import { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { API_URL } from "../../config/api";
 import "./chatPage.scss";
 
 export default function ChatPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const bottomRef = useRef(null);
+  const token = localStorage.getItem("token");
 
-  // загрузка сообщений
-  const load = async () => {
+  /* =========================
+     ЗАГРУЗКА СООБЩЕНИЙ
+  ========================= */
+  const loadMessages = async () => {
+    if (!token) return;
+
     try {
+      setLoading(true);
+      setError(null);
+
       const res = await fetch(`${API_URL}/api/messages/${id}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
+          Authorization: `Bearer ${token}`
         }
       });
 
-      if (!res.ok) return;
-
       const data = await res.json();
-      setMessages(data);
-    } catch (e) {
-      console.error("Ошибка загрузки сообщений", e);
+
+      if (!res.ok) {
+        setError(data.error || "Ошибка загрузки диалога");
+        return;
+      }
+
+      setMessages(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Ошибка загрузки сообщений:", err);
+      setError("Сервер недоступен");
+    } finally {
+      setLoading(false);
     }
   };
 
-  // первичная загрузка
+  /* =========================
+     ПЕРВИЧНАЯ ЗАГРУЗКА
+  ========================= */
   useEffect(() => {
-    load();
+    loadMessages();
   }, [id]);
 
-  // автоскролл вниз
+  /* =========================
+     АВТОСКРОЛЛ ВНИЗ
+  ========================= */
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // отправка сообщения
-  const send = async () => {
-    if (!text.trim()) return;
+  /* =========================
+     ОТПРАВКА СООБЩЕНИЯ
+  ========================= */
+  const sendMessage = async () => {
+    if (!text.trim() || !token) return;
 
     try {
-      await fetch(`${API_URL}/api/messages`, {
+      const res = await fetch(`${API_URL}/api/messages`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`
+          Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
           conversationId: id,
@@ -57,23 +81,55 @@ export default function ChatPage() {
         })
       });
 
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || "Ошибка отправки сообщения");
+        return;
+      }
+
       setText("");
-      load();
-    } catch (e) {
-      console.error("Ошибка отправки", e);
+      await loadMessages();
+
+    } catch (err) {
+      console.error("Ошибка отправки сообщения:", err);
+      alert("Сервер недоступен");
     }
   };
+
+  /* =========================
+     RENDER
+  ========================= */
+  if (loading) {
+    return <div className="chat chat--loading">Загрузка диалога…</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="chat chat--error">
+        <p>{error}</p>
+        <button onClick={() => navigate("/messages")}>
+          ← Назад к диалогам
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="chat">
       <div className="chat__messages">
+        {messages.length === 0 && (
+          <div className="chat__empty">
+            Пока нет сообщений. Напишите первым 👋
+          </div>
+        )}
+
         {messages.map(m => (
           <div
             key={m.id}
             className={`bubble ${m.isMine ? "mine" : ""}`}
           >
             <div className="text">{m.text}</div>
-
             <span className="time">
               {new Date(m.createdAt).toLocaleTimeString([], {
                 hour: "2-digit",
@@ -90,9 +146,10 @@ export default function ChatPage() {
         <input
           value={text}
           onChange={e => setText(e.target.value)}
-          placeholder="Введите сообщение..."
+          placeholder="Введите сообщение…"
+          onKeyDown={e => e.key === "Enter" && sendMessage()}
         />
-        <button onClick={send}>Отправить</button>
+        <button onClick={sendMessage}>Отправить</button>
       </div>
     </div>
   );
